@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="Hudz">
-    </qresource>
+  <qresource prefix="Hudz">
+    <file>img/template.png</file>
+  </qresource>
 </RCC>

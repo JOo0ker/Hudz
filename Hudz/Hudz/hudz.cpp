@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include "hudz.h"
 
+#include "ocr.h"
+
 Hudz::Hudz(QWidget* parent)
 	: QMainWindow(parent),
 	BaseTimer(new QTimer(this)),
@@ -26,6 +28,14 @@ Hudz::Hudz(QWidget* parent)
 	connect(ShotTimer, &QTimer::timeout, this, &Hudz::SimMouseClicked);
 
 	Preset();
+
+	Ocr ocr("./tessdata", "eng");
+	Ui.PTEdit_OCR->appendPlainText(ocr.FindMatText(
+		cv::imread(Ui.LEdit_Template->text().toStdString(), cv::IMREAD_GRAYSCALE),
+		Ocr::CaptureScreen()).split("\n").first());
+
+
+	Ui.Label_SystemImg->setPixmap(Ocr::CvMatToQPixmap(ocr.GetCurrentMatchedMat()));
 }
 
 Hudz::~Hudz()
